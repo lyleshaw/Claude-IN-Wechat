@@ -1,3 +1,5 @@
 SLACK_USER_TOKEN = "xoxp-"
 BOT_USER_ID = ""
 WECHATY_TOKEN = "puppet_padlocal_xxxx"
+POE_COOKIE = "m-b="
+POE_FORMKEY = ""
