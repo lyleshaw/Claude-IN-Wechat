@@ -1,0 +1,4 @@
+config.py
+.wechaty
+.idea
+__pycache__
