@@ -34,7 +34,7 @@ class SimplifierBot(Wechaty):
         if text == "/query":
             credit, use_tokens = get_usage()
             await conversation.ready()
-            await conversation.say(f"当前会话：{self.login_user}\n剩余额度：{credit}\n已用次数：{use_tokens}")
+            await conversation.say(f"当前会话：{from_id}\n剩余额度：{credit}\n已用次数：{use_tokens}")
 
     async def on_login(self, contact: Contact):
         logger.info('Contact<%s> has logined ...', contact)
