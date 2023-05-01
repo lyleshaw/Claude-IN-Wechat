@@ -1,0 +1,4 @@
+requests==2.28.2
+revChatGPT==5.0.0
+slack_sdk==3.21.2
+wechaty==0.10.7
