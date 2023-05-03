@@ -24,17 +24,24 @@ class SimplifierBot(Wechaty):
         room: Optional[Room] = msg.room()
         conversation: Union[Room, Contact] = from_contact if room is None else room
         from_id: str = from_contact.contact_id if room is None else room.room_id
-        if text.startswith("。"):
+        if text.startswith("。") and (not text.startswith("。。")) and len(text) > 1:
             await conversation.ready()
             await conversation.say(response_to_message(text.replace("。", "", 1), from_id))
-        if text == "/reset":
-            reset_conv(from_id)
+        if text.startswith("/reset"):
+            system_prompt = text.replace("/reset", "", 1)
+            reset_conv(from_id, system_prompt)
             await conversation.ready()
             await conversation.say("已重置")
         if text == "/query":
             credit, use_tokens = get_usage()
             await conversation.ready()
             await conversation.say(f"当前会话：{from_id}\n剩余额度：{credit}\n已用次数：{use_tokens}")
+        if text.startswith("/set"):
+            token = text.replace("/set", "", 1)
+            config.OPENAI_API_KEY = token
+            credit, use_tokens = get_usage()
+            await conversation.ready()
+            await conversation.say(f"已使用新 token\n当前会话：{from_id}\n剩余额度：{credit}\n已用次数：{use_tokens}")
 
     async def on_login(self, contact: Contact):
         logger.info('Contact<%s> has logined ...', contact)
