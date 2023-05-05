@@ -10,11 +10,16 @@ chatbot = Chatbot(api_key=config.OPENAI_API_KEY, system_prompt="你是一个善�
 
 
 def response_to_message(message: str, conv_id: str) -> str:
-    while len(chatbot.conversation[conv_id]) > 10:
-        chatbot.conversation[conv_id].pop(0)
+    if conv_id in chatbot.conversation:
+        while len(chatbot.conversation[conv_id]) > 10:
+            chatbot.conversation[conv_id].pop(0)
     os.environ['API_URL'] = "https://api.openai-sb.com/v1/chat/completions"
     logger.info(f"Conv ID: {conv_id}, Message: {message}")
-    resp = chatbot.ask(prompt=message, conv_id=conv_id)
+    try:
+        resp = chatbot.ask(prompt=message, conv_id=conv_id)
+    except Exception as e:
+        logger.error(e)
+        resp = "出错了，请重试"
     logger.info(f"Response: {resp}")
     return resp
 
