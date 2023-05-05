@@ -9,6 +9,7 @@ from wechaty import (
 )
 
 import config
+import openai
 from log import logger
 from openai import response_to_message, reset_conv, get_usage
 
@@ -39,6 +40,7 @@ class SimplifierBot(Wechaty):
         if text.startswith("/set"):
             token = text.replace("/set ", "", 1)
             config.OPENAI_API_KEY = token
+            openai.chatbot.api_key = token
             credit, use_tokens = get_usage()
             await conversation.ready()
             await conversation.say(f"已使用新 token\n当前会话：{from_id}\n剩余额度：{credit}\n已用次数：{use_tokens}")
