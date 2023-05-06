@@ -1,5 +1,7 @@
 import asyncio
 import random
+import time
+from datetime import datetime
 from typing import Optional, Union
 
 from wechaty import (
@@ -48,8 +50,11 @@ class SimplifierBot(Wechaty):
             await conversation.say(f"已使用新 token\n当前会话：{from_id}\n剩余额度：{credit}\n已用次数：{use_tokens}")
         if text.startswith("/r"):
             total = int(text.replace("/r ", "", 1))
-            await conversation.ready()
-            await conversation.say(f"抽取： {random.randint(1, total)}")
+            now = datetime.now()
+            microsecond = now.microsecond
+            strftime = now.strftime("%H:%M:%S.%f")
+            final = microsecond % total
+            await conversation.say(f"当前时间：{strftime}\n毫秒 {microsecond} 对总数 {total} 取余得 {final}\n因此抽取：{final+1}")
 
     async def on_login(self, contact: Contact):
         logger.info('Contact<%s> has logined ...', contact)
