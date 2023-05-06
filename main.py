@@ -1,4 +1,5 @@
 import asyncio
+import random
 from typing import Optional, Union
 
 from wechaty import (
@@ -27,7 +28,8 @@ class SimplifierBot(Wechaty):
         from_id: str = from_contact.contact_id if room is None else room.room_id
         if text.startswith("。") and (not text.startswith("。。")) and len(text) > 1:
             await conversation.ready()
-            await conversation.say(response_to_message(text.replace("。", "", 1), from_id))
+            await conversation.say(
+                response_to_message(text.replace("。", "", 1), from_id) + "\n感谢「礼」「栗栗栗栗子」的赞助~")
         if text.startswith("/reset"):
             system_prompt = text.replace("/reset ", "", 1)
             reset_conv(from_id, system_prompt)
@@ -44,6 +46,10 @@ class SimplifierBot(Wechaty):
             credit, use_tokens = get_usage()
             await conversation.ready()
             await conversation.say(f"已使用新 token\n当前会话：{from_id}\n剩余额度：{credit}\n已用次数：{use_tokens}")
+        if text.startswith("/r"):
+            total = int(text.replace("/r ", "", 1))
+            await conversation.ready()
+            await conversation.say(f"抽取： {random.randint(1, total)}")
 
     async def on_login(self, contact: Contact):
         logger.info('Contact<%s> has logined ...', contact)
