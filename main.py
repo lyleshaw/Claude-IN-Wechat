@@ -55,9 +55,7 @@ class SimplifierBot(Wechaty):
             strftime = now.strftime("%H:%M:%S.%f")
             final = microsecond % total
             await conversation.say(f"指令时间：{strftime}\n"
-                                   f"毫秒 {microsecond} 对总数 {total} 取余得 {final}\n"
-                                   f"为使得抽出编号在 (1,n) 区间，对余数 +1\n"
-                                   f"因此抽取：{final+1}")
+                                   f"抽取编号：{final+1}")
 
     async def on_login(self, contact: Contact):
         logger.info('Contact<%s> has logined ...', contact)
