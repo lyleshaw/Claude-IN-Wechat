@@ -56,6 +56,10 @@ class SimplifierBot(Wechaty):
             final = microsecond % total
             await conversation.say(f"指令时间：{strftime}\n"
                                    f"抽取编号：{final+1}")
+        if text.startswith("/s"):
+            query = text.replace("/s ", "", 1)
+            await conversation.ready()
+            await conversation.say(f"{openai.response_with_google(query)}\n感谢「礼」「栗栗栗栗子」「孙晟禹今天写曲子了吗」的赞助~")
 
     async def on_login(self, contact: Contact):
         logger.info('Contact<%s> has logined ...', contact)

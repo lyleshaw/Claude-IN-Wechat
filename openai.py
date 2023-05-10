@@ -24,6 +24,27 @@ def response_to_message(message: str, conv_id: str) -> str:
     return resp
 
 
+def response_with_google(query: str) -> str:
+    try:
+        resp = requests.get(f'http://search.aireview.tech/api/search', params={"query": query}).text
+    except Exception as e:
+        logger.error(e)
+        return "联网查询出错了，请重试"
+    logger.info(f"Google Response: {resp}")
+    if "Text" not in resp:
+        return "联网查询出错了，请重试"
+    prompt = f"{resp}\n请根据如上的Google搜索结果回答问题:{query}"
+    os.environ['API_URL'] = "https://api.openai-sb.com/v1/chat/completions"
+    logger.info(f"Message: {prompt}")
+    try:
+        resp = chatbot.ask(prompt=prompt)
+    except Exception as e:
+        logger.error(e)
+        resp = "联网查询出错了，请重试"
+    logger.info(f"Google Response: {resp}")
+    return resp
+
+
 def reset_conv(conv_id: str, system_prompt: str) -> None:
     chatbot.reset(conv_id, system_prompt=system_prompt)
 
