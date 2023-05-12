@@ -31,7 +31,7 @@ class SimplifierBot(Wechaty):
         if text.startswith("。") and (not text.startswith("。。")) and len(text) > 1:
             await conversation.ready()
             await conversation.say(
-                response_to_message(text.replace("。", "", 1), from_id) + "\n感谢「礼」「栗栗栗栗子」「孙晟禹今天写曲子了吗」的赞助~")
+                response_to_message(text.replace("。", "", 1), from_id) + "\n感谢「礼」「栗栗栗栗子」「孙晟禹今天写曲子了吗」「鱼丸宽面」的赞助~")
         if text.startswith("/reset"):
             system_prompt = text.replace("/reset ", "", 1)
             reset_conv(from_id, system_prompt)
@@ -59,11 +59,11 @@ class SimplifierBot(Wechaty):
         if text.startswith("/s"):
             query = text.replace("/s ", "", 1)
             await conversation.ready()
-            await conversation.say(f"{openai.response_with_google(query)}\n感谢「礼」「栗栗栗栗子」「孙晟禹今天写曲子了吗」的赞助~")
+            await conversation.say(f"{openai.response_with_google(query)}")
         if text.startswith("/b"):
             query = text.replace("/b ", "", 1)
             await conversation.ready()
-            await conversation.say(f"{openai.response_with_bard(query)}\n感谢「礼」「栗栗栗栗子」「孙晟禹今天写曲子了吗」的赞助~")
+            await conversation.say(f"{openai.response_with_bard(query)}")
 
     async def on_login(self, contact: Contact):
         logger.info('Contact<%s> has logined ...', contact)
