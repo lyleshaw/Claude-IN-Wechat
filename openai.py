@@ -25,6 +25,7 @@ def response_to_message(message: str, conv_id: str) -> str:
 
 
 def response_with_google(query: str) -> str:
+    logger.info(f"Google Req: {query}")
     try:
         resp = requests.get(f'http://search.aireview.tech/api/search', params={"query": query}).text
     except Exception as e:
@@ -42,6 +43,16 @@ def response_with_google(query: str) -> str:
         logger.error(e)
         resp = "联网查询出错了，请重试"
     logger.info(f"Google Response: {resp}")
+    return resp
+
+
+def response_with_bard(prompt: str) -> str:
+    try:
+        resp = requests.get(f'http://bard.aireview.tech/api/query', params={"prompt": prompt}).text
+    except Exception as e:
+        logger.error(e)
+        return "bard 调用出错了，请重试"
+    logger.info(f"Bard Response: {resp}")
     return resp
 
 
